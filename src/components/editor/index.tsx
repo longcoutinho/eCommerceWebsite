@@ -1,24 +1,18 @@
 import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
-import { Box, FormControl, TextField, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import "react-quill/dist/quill.snow.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Quill } from 'react-quill';
-import { ImageResize } from 'quill-image-resize-module';
-
-
+import { Quill } from "react-quill";
 const EditorToolbar = dynamic(() => import("./EditorToolbar"), {
   loading: () => <p>loading...</p>,
 
   ssr: false,
 });
 
-
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
-    const { default: ImageResize } = await import("quill-image-resize-module");
+    const { default: ImageResize } = await import("quill-blot-formatter");
     RQ.Quill.register("modules/imageResize", ImageResize);
     return function forwardRef({ forwardedRef, ...props }: any) {
       return <RQ ref={forwardedRef} {...props} />;
@@ -79,8 +73,7 @@ const RootStyle = styled(Box)(({ theme }: any) => ({
   },
 }));
 
-export default function Editor(
-  {
+export default function Editor({
   id = "admincp-quill",
   error,
   value,
@@ -104,29 +97,33 @@ export default function Editor(
     clipboard: {
       matchVisual: false,
     },
+    imageResize: {
+      parchment: Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize"],
+    },
   };
-  
+
   return (
-    <Box sx={{border: '1px solid black', marginTop: '20px', width: "100%"}}>
+    <Box sx={{ border: "1px solid black", marginTop: "20px", width: "100%" }}>
       <RootStyle
-          sx={{
-            ...(error && {
-              border: (theme) => `solid 1px ${theme.palette.error.main}`,
-            }),
-            ...sx,
-          }}
-        >
-          <EditorToolbar id={id} isSimple={simple} />
-          <ReactQuill
-            value={value}
-            onChange={onChange}
-            modules={modules}
-            formats={formats}
-            placeholder="Write something awesome..."
-            {...other}
-          />
-        </RootStyle>
-        {helperText && helperText}
+        sx={{
+          ...(error && {
+            border: (theme) => `solid 1px ${theme.palette.error.main}`,
+          }),
+          ...sx,
+        }}
+      >
+        <EditorToolbar id={id} isSimple={simple} />
+        <ReactQuill
+          value={value}
+          onChange={onChange}
+          modules={modules}
+          formats={formats}
+          placeholder="Write something awesome..."
+          {...other}
+        />
+      </RootStyle>
+      {helperText && helperText}
     </Box>
   );
 }

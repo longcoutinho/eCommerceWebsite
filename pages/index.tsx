@@ -12,86 +12,108 @@ import FullLayout from "../src/layouts/full/FullLayout";
 import Editor from "../src/components/editor";
 import axios from "axios";
 import Image from "../src/components/Image";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import { faInfoCircle, faPen, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faInfoCircle,
+  faPen,
+  faTrash,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Post {
-  image: string,
-  title: string,
-  author: string,
-  id: Number,
+  image: string;
+  title: string;
+  author: string;
+  id: Number;
 }
-
 
 export default function Home() {
   const [content, setContent] = useState<any>();
   const [title, setTitle] = useState("");
-  const [listPosts, setListPost] = useState<Post[]>([{
-    title: "Bài viết dành cho người mù",
-    image: "abc",
-    author: "longhvh",
-    id: 1,
-  } ,
-  {
-    title: "Bài viết dành cho người mù",
-    image: "abc",
-    author: "longhvh",
-    id: 1,
-  } ,
-
-]);
+  const [listPosts, setListPost] = useState<Post[]>([
+    {
+      title: "Bài viết dành cho người mù",
+      image: "abc",
+      author: "longhvh",
+      id: 1,
+    },
+    {
+      title: "Bài viết dành cho người mù",
+      image: "abc",
+      author: "longhvh",
+      id: 1,
+    },
+  ]);
   useEffect(() => {
     axios({
-      method: 'get',
-      url: 'http://10.248.158.167:1112/posts',
-    }).then((res) => {
-      setListPost(res.data.content)
-    }, (err) => {
-      console.log(err)
-    })
-  },[])
+      method: "get",
+      url: "http://10.248.158.167:1112/posts",
+    }).then(
+      (res) => {
+        setListPost(res.data.content);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }, []);
   const handleChange = (e: any) => {
     console.log("e", e);
     setContent(e);
   };
-  axios.defaults.baseURL = 'http://10.248.158.167:1112';
-  
+  axios.defaults.baseURL = "http://10.248.158.167:1112";
+
   const ListPosts = () => {
-      const ListPostsContent = listPosts.map((post) => {
-          return (
-            <Box className="list-posts">
-                <Box className="list-posts-image">
-                  <Image className="posts-image" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"></Image>
-                </Box>
-                <Box className="list-posts-title">
-                  <p>{post.title}</p>
-                </Box>
-                <Box className="group-action-icon">
-                  <FontAwesomeIcon className="action-icon" icon={faInfoCircle}></FontAwesomeIcon>
-                  <FontAwesomeIcon className="action-icon" icon={faPen}></FontAwesomeIcon>
-                  <FontAwesomeIcon className="action-icon" icon={faTrash}></FontAwesomeIcon>
-                  <FontAwesomeIcon className="action-icon" icon={faStar}></FontAwesomeIcon>
-                </Box>
-              </Box>
-          )
-      })
+    const ListPostsContent = listPosts.map((post, index) => {
+      return (
+        <Box className="list-posts" key={index}>
+          <Box className="list-posts-image">
+            <Image
+              className="posts-image"
+              src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
+            ></Image>
+          </Box>
+          <Box className="list-posts-title">
+            <p>{post.title}</p>
+          </Box>
+          <Box className="group-action-icon">
+            <FontAwesomeIcon
+              className="action-icon"
+              icon={faInfoCircle}
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              className="action-icon"
+              icon={faPen}
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              className="action-icon"
+              icon={faTrash}
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              className="action-icon"
+              icon={faStar}
+            ></FontAwesomeIcon>
+          </Box>
+        </Box>
+      );
+    });
 
     return (
-      <Box
-        className="list-posts-content flex-row full-width full-height"
-      >
+      <Box className="list-posts-content flex-row full-width full-height">
         {ListPostsContent}
       </Box>
     );
-  }
-
-
-
+  };
 
   return (
-    <PageContainer title="Web admin phong thủy" description="Quản lý web phong thủy">
-      <Box sx={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <PageContainer
+      title="Web admin phong thủy"
+      description="Quản lý web phong thủy"
+    >
+      <Box
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
         <ListPosts></ListPosts>
       </Box>
     </PageContainer>
