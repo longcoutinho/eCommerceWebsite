@@ -13,8 +13,13 @@ export default function CreateItem() {
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<Number>();
   const [content, setContent] = useState();
+  const [introduction, setIntroduction] = useState();
   const [image, setImage] = useState<File[]>([]);
   const handleChange = (e: any) => {
+    console.log("e", e);
+    setIntroduction(e);
+  };
+  const handleChangee = (e: any) => {
     console.log("e", e);
     setContent(e);
   };
@@ -82,7 +87,9 @@ export default function CreateItem() {
           <p>Giá tiền 1 đơn vị (VNĐ)</p>
           <TextField onChange={(e: any) => handlePrice(e.target.value)}/>    
           <p>Giới thiệu sản phẩm</p>
-          <Editor onChange={(e: any) => handleChange(e)} value={content} />
+          <Editor onChange={(e: any) => handleChange(e)} value={introduction} />
+          <p>Nội dung sản phẩm</p>
+
         </FormControl>
         <Button variant="contained" sx={{marginTop: '20px', border: '1px solid black'}} onClick={createPost}>Thêm sản phẩm</Button> 
       </Box>
