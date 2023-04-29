@@ -54,6 +54,7 @@ export default function CreateItem() {
         title: title,
         price: price,
         imagesTitle: image,
+        introduction: introduction,
       }
     })
     .then((response) => {
