@@ -20,6 +20,7 @@ import {
   faTrash,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 
 interface Post {
   image: string;
@@ -29,8 +30,7 @@ interface Post {
 }
 
 export default function Home() {
-  const [content, setContent] = useState<any>();
-  const [title, setTitle] = useState("");
+  const router = useRouter();
   const [listPosts, setListPost] = useState<Post[]>([
     {
       title: "Bài viết dành cho người mù",
@@ -58,11 +58,14 @@ export default function Home() {
       }
     );
   }, []);
-  const handleChange = (e: any) => {
-    console.log("e", e);
-    setContent(e);
-  };
   axios.defaults.baseURL = "http://10.248.158.167:1112";
+
+  const redirect = (id: any) => {
+    router.push({
+      pathname: "/posts/detail",
+      search: "?" + new URLSearchParams({ id: id }),
+    });
+  };
 
   const ListPosts = () => {
     const ListPostsContent = listPosts.map((post, index) => {
@@ -79,6 +82,7 @@ export default function Home() {
           </Box>
           <Box className="group-action-icon">
             <FontAwesomeIcon
+              onClick={() => redirect(post.id)}
               className="action-icon"
               icon={faInfoCircle}
             ></FontAwesomeIcon>

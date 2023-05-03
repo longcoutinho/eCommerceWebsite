@@ -26,7 +26,15 @@
 }
 
 .action-icon {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
     font-size: 20px;
+    border: 2px solid black;
+}
+
+.action-icon:hover {
+    cursor: pointer;
 }
 
 .list-posts {
