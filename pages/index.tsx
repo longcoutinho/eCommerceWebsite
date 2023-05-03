@@ -67,6 +67,20 @@ export default function Home() {
     });
   };
 
+  const deletePost = (id: any) => {
+    axios({
+      method: "delete",
+      url: "http://10.248.158.167:1112/posts",
+    }).then(
+      (res) => {
+        console.log(res);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  };
+
   const ListPosts = () => {
     const ListPostsContent = listPosts.map((post, index) => {
       return (
@@ -91,6 +105,7 @@ export default function Home() {
               icon={faPen}
             ></FontAwesomeIcon>
             <FontAwesomeIcon
+              onClick={() => deletePost(post.id)}
               className="action-icon"
               icon={faTrash}
             ></FontAwesomeIcon>
