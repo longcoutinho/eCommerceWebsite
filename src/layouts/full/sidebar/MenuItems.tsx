@@ -29,7 +29,12 @@ const Menuitems = [
     icon: IconPlus,
     href: "/posts/create",
   },
-
+  {
+    id: uniqueId(),
+    title: "Loại bài viết",
+    icon: IconPlus,
+    href: "/posts/type",
+  },
   {
     navlabel: true,
     subheader: "Sản phẩm",
@@ -45,6 +50,12 @@ const Menuitems = [
     title: "Thêm sản phẩm mới",
     icon: IconPlus,
     href: "/items/create",
+  },
+  {
+    id: uniqueId(),
+    title: "Loại sản phẩm",
+    icon: IconPlus,
+    href: "/items/type",
   },
   {
     navlabel: true,

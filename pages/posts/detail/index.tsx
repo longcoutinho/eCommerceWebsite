@@ -6,6 +6,8 @@ import FullLayout from "../../../src/layouts/full/FullLayout";
 import { useEffect} from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
   loading: () => <p>loading...</p>,
 
@@ -53,12 +55,23 @@ export default function CreatePost() {
     }
   }, [route.query]);
 
+  const goBack = () => {
+      route.back();
+  }
+
   const DetailPost = () => {
     return (
       <Box
         className="detail-posts-container flex-col"
       >
-        <Box
+          <Box>
+              <FontAwesomeIcon style={{color: 'black'}} icon={faBackward} id="delete-cart-item"/>
+              <Button onClick={() => goBack()} sx={{color: 'black'}}>Back</Button>
+          </Box>
+          <Box sx={{marginTop: "20px", textAlign: "center", fontSize: "30px", textTransform: "uppercase", fontWeight: "700"}}>
+              {detailPost?.title}
+          </Box>
+        <Box sx={{marginTop: "20px"}}
           dangerouslySetInnerHTML={{ __html: detailPost?.content }}
         ></Box>
       </Box>
