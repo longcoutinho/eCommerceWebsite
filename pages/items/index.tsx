@@ -51,7 +51,7 @@ export default function Items() {
   const deletePost = (id: any) => {
     axios({
       method: "delete",
-      url: "/item" + "/" + id,
+      url: Backend.URL + "/item" + "/" + id,
     }).then(
         (res) => {
           console.log(res);

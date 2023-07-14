@@ -134,7 +134,7 @@ export default function CreatePost() {
         'Access-Control-Allow-Origin': '*',
       },
       method: 'post',
-      url: '/posts',
+      url: Backend.URL +  '/posts',
       data: {
         title: title,
         content: content,

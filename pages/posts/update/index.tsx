@@ -137,7 +137,7 @@ export default function UpdatePost() {
                 'Access-Control-Allow-Origin': '*',
             },
             method: 'put',
-            url: '/posts' + "/" + route.query.id,
+            url: Backend.URL + '/posts' + "/" + route.query.id,
             data: {
                 title: title,
                 content: content,

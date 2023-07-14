@@ -105,7 +105,7 @@ export default function CreateItem() {
         'Access-Control-Allow-Origin': '*',
       },
       method: 'post',
-      url: '/item',
+      url: Backend.URL + '/item',
       data: {
         title: title,
         price: price,

@@ -63,7 +63,7 @@ export default function ItemType() {
     const deletePost = (id: any) => {
         axios({
             method: "delete",
-            url: "/type" + "/" + id,
+            url: Backend.URL + "/type" + "/" + id,
         }).then(
             (res) => {
                 setOpen(false);
@@ -127,7 +127,7 @@ export default function ItemType() {
     const addNewItemType = (content) => {
         axios({
             method: "post",
-            url: "/type",
+            url: Backend.URL + "/type",
             data: {
                 name: content,
                 serviceType: 1,
@@ -157,7 +157,7 @@ export default function ItemType() {
     const changePostsPriority = (priority, id) => {
         axios({
             method: "put",
-            url: "/posts/priority" + "/" + id,
+            url: Backend.URL + "/posts/priority" + "/" + id,
             params: {
                 priority: 1 - priority,
             }

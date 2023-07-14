@@ -51,7 +51,7 @@ export default function Orders() {
   const deletePost = (id: any) => {
     axios({
       method: "delete",
-      url: "/posts" + "/" + id,
+      url: Backend.URL + "/posts" + "/" + id,
     }).then(
         (res) => {
           console.log(res);
