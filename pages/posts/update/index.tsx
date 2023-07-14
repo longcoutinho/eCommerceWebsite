@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import {Alert, Fade} from "@mui/material";
 import {TypePost, Post} from "../../../src/components/interface"
 import { useRouter } from "next/router";
+import {Backend} from "../../../src/components/contants/FnCommon";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
     loading: () => <p>loading...</p>,
 
@@ -31,12 +32,11 @@ export default function UpdatePost() {
         console.log(e);
         setContent(e);
     };
-    axios.defaults.baseURL = 'http://10.248.158.167:1112';
     const [listPostsMenu, setListPostsMenu] = useState<TypePost[]>([])
     useEffect(() => {
         axios({
             method: "get",
-            url: "http://10.248.158.167:1112/type/0",
+            url: Backend.URL + "/type/0",
         }).then(
             (res) => {
                 setListPostsMenu(res.data);
@@ -50,7 +50,7 @@ export default function UpdatePost() {
 
     useEffect(() => {
         if (route.query.id !== undefined) {
-            const URL = "http://10.248.158.167:1112/posts/" + route.query.id;
+            const URL = Backend.URL + "/posts/" + route.query.id;
             console.log(route.query.id);
             axios({
                 headers: {

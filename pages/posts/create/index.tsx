@@ -19,6 +19,7 @@ import dynamic from "next/dynamic";
 import {Alert} from "@mui/lab";
 import {TypePost} from "../../../src/components/interface"
 import {setPriority} from "os";
+import {Backend} from "../../../src/components/contants/FnCommon";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
   loading: () => <p>loading...</p>,
 
@@ -45,12 +46,12 @@ export default function CreatePost() {
         console.log(e);
         setContent(e);
     };
-  axios.defaults.baseURL = 'http://10.248.158.167:1112';
+
     const [listPostsMenu, setListPostsMenu] = useState<TypePost[]>([])
     useEffect(() => {
         axios({
             method: "get",
-            url: "http://10.248.158.167:1112/type/0",
+            url: Backend.URL + "/type/0",
         }).then(
             (res) => {
                 setListPostsMenu(res.data);

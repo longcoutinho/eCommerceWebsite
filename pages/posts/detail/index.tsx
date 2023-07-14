@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { faBackward } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Backend} from "../../../src/components/contants/FnCommon";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
   loading: () => <p>loading...</p>,
 
@@ -34,7 +35,7 @@ export default function CreatePost() {
   const route = useRouter();
   useEffect(() => {
     if (route.query.id !== undefined) {
-      const URL = "http://10.248.158.167:1112/posts/" + route.query.id;
+      const URL = Backend.URL + "/posts/" + route.query.id;
       console.log(route.query.id);
       axios({
         headers: {

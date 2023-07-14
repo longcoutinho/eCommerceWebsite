@@ -26,6 +26,7 @@ import {
     faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import {Backend} from "../../../src/components/contants/FnCommon";
 
 export default function PostType() {
     const router = useRouter();
@@ -38,12 +39,11 @@ export default function PostType() {
     const [id, setId] = useState("");
     const [handleType, setHandleType] = useState(0);
     const inputElement = useRef<any>(null);
-    axios.defaults.baseURL = "http://10.248.158.167:1112";
 
     const getItemTypeData = () => {
         axios({
             method: "get",
-            url: "http://10.248.158.167:1112/type/0",
+            url: Backend.URL + "/type/0",
         }).then(
             (res) => {
                 setListItemType(res.data);

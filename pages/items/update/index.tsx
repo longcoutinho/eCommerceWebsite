@@ -8,6 +8,7 @@ import {Alert} from "@mui/lab";
 import dynamic from "next/dynamic";
 import {Post} from "../../../src/components/interface";
 import {useRouter} from "next/router";
+import {Backend} from "../../../src/components/contants/FnCommon";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
     loading: () => <p>loading...</p>,
     ssr: false,
@@ -45,11 +46,10 @@ export default function UpdateItem() {
         console.log(e.target.files[0]);
         setImage(listFile);
     }
-    axios.defaults.baseURL = 'http://10.248.158.167:1112';
 
     useEffect(() => {
         if (route.query.id !== undefined) {
-            const URL = "http://10.248.158.167:1112/item/" + route.query.id;
+            const URL = Backend.URL + "/item/" + route.query.id;
             console.log(route.query.id);
             axios({
                 headers: {

@@ -15,6 +15,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import {Backend} from "../../src/components/contants/FnCommon";
 
 export default function Orders() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function Orders() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://10.248.158.167:1112/order",
+      url: Backend.URL + "/order",
     }).then(
         (res) => {
           setListPost(res.data.content);
@@ -32,7 +33,6 @@ export default function Orders() {
         }
     );
   }, []);
-  axios.defaults.baseURL = "http://10.248.158.167:1112";
 
   const redirect = (id: any) => {
     router.push({

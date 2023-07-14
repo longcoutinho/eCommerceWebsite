@@ -33,6 +33,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import {Backend} from "../src/components/contants/FnCommon";
 
 export default function Home() {
   const router = useRouter();
@@ -49,13 +50,10 @@ export default function Home() {
   const [alertType, setAlertType] = useState<any>("");
   const [alertContent, setAlertContent] = useState("");
 
-
-  axios.defaults.baseURL = "http://10.248.158.167:1112";
-
   const getListTypePost = () => {
     axios({
       method: "get",
-      url: "http://10.248.158.167:1112/type/0",
+      url: Backend.URL + "/type/0",
     }).then(
         (res) => {
           setListPostsMenu(res.data);
@@ -69,7 +67,7 @@ export default function Home() {
   const searchPosts = (params: any) => {
       axios({
         method: "get",
-        url: "http://10.248.158.167:1112/posts",
+        url: Backend.URL + "/posts",
         params: params,
       }).then(
           (res) => {

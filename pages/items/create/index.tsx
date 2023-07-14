@@ -7,6 +7,7 @@ import Image from "../../../src/components/Image";
 import {Alert} from "@mui/lab";
 import dynamic from "next/dynamic";
 import {TypePost} from "../../../src/components/interface";
+import {Backend} from "../../../src/components/contants/FnCommon";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -47,7 +48,6 @@ export default function CreateItem() {
     console.log(e.target.files[0]);
     setImage(listFile);
   }
-  axios.defaults.baseURL = 'http://10.248.158.167:1112';
 
   const validateCreateItem = () => {
     if (title === "") {
@@ -82,7 +82,7 @@ export default function CreateItem() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://10.248.158.167:1112/type/item",
+      url: Backend.URL + "/type/item",
     }).then(
         (res) => {
           setListPostsMenu(res.data);
