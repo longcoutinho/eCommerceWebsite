@@ -37,9 +37,7 @@ import {Backend} from "../src/components/contants/FnCommon";
 
 export default function Home() {
   const router = useRouter();
-  const [listPosts, setListPost] = useState<Post[]>([]);
   const [listPostsMenu, setListPostsMenu] = useState<TypePost[]>([]);
-  const [searchType, setSearchType] = useState("default");
   const [open, setOpen] = useState(false);
   const [titleDialog, setTitleDialog] = useState("");
   const [contentDialog, setContentDialog] = useState("");
@@ -64,24 +62,8 @@ export default function Home() {
     );
   }
 
-  const searchPosts = (params: any) => {
-      axios({
-        method: "get",
-        url: Backend.URL + "/posts",
-        params: params,
-      }).then(
-          (res) => {
-            setListPost(res.data.content);
-          },
-          (err) => {
-            console.log(err);
-          }
-      );
-  }
-
   useEffect(() => {
     getListTypePost();
-    searchPosts(null);
     //console.log(listPostsMenu);
   },[]);
 
@@ -98,26 +80,6 @@ export default function Home() {
       search: "?" + new URLSearchParams({ id: id }),
     });
   }
-
-  const deletePost = (id: any) => {
-    axios({
-      method: "delete",
-      url: "/posts" + "/" + id,
-    }).then(
-      (res) => {
-        setOpen(false);
-        setAlertVisibility(true);
-        setAlertType("success");
-        setAlertContent("Xóa bài viết thành công");
-        searchPosts(null);
-      },
-      (err) => {
-        setAlertVisibility(true);
-        setAlertType("error");
-        setAlertContent(err.response.data);
-      }
-    );
-  };
 
   const AlertComponent = () => {
     return(
@@ -148,20 +110,11 @@ export default function Home() {
     setHandleType(2);
   };
 
-  const handleTypePost = (event: any) => {
-    setSearchType(event.target.value as string);
-  }
-
-  const buildObjectFilter = () : object => {
+  const buildObjectFilter = (searchType: any) : object => {
     const params = {
       typeId: searchType == "default" ? null : searchType,
     }
     return params;
-  }
-
-  const searchPostsProcess = () => {
-    let params = buildObjectFilter();
-    searchPosts(params);
   }
 
   const handleClose = () => {
@@ -182,40 +135,111 @@ export default function Home() {
     setHandleType(1);
   };
 
-  const handleAgreeButton = (type) => {
-    if (type == 1) {
-      changePostsPriority(priority, id);
-    }
-    else if (type == 2) {
-      deletePost(id);
-    }
-  }
 
-  const changePostsPriority = (priority, id) => {
-    axios({
-      method: "put",
-      url: "/posts/priority" + "/" + id,
-      params: {
-        priority: 1 - priority,
-      }
-    }).then(
-        (res) => {
-          setOpen(false);
-          searchPosts(null);
-          setAlertVisibility(true);
-          setAlertType("success");
-          setAlertContent("Thành công!");
-        },
-        (err) => {
-          setAlertVisibility(true);
-          setAlertType("error");
-          setAlertContent(err.response.data);
+
+
+
+  const ListPosts = (props: any) => {
+    const [listPosts, setListPost] = useState<Post[]>([]);
+    const [typePost, setTypePost] = useState("");
+    const changePostsPriority = (priority, id) => {
+      axios({
+        method: "put",
+        url: "/posts/priority" + "/" + id,
+        params: {
+          priority: 1 - priority,
         }
-    );
-    console.log("kk");
-  }
+      }).then(
+          (res) => {
+            setOpen(false);
+            searchPosts(null);
+            setAlertVisibility(true);
+            setAlertType("success");
+            setAlertContent("Thành công!");
+          },
+          (err) => {
+            setAlertVisibility(true);
+            setAlertType("error");
+            setAlertContent(err.response.data);
+          }
+      );
+      console.log("kk");
+    }
 
-  const ListPosts = () => {
+    const DialogComponent = (props) => {
+      return (<Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {props.title}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {props.content}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleAgreeButton(handleType)}>Đồng ý</Button>
+          <Button onClick={handleClose} autoFocus>
+            Hủy bỏ
+          </Button>
+        </DialogActions>
+      </Dialog>)
+    }
+
+    const searchPostsProcess = (typePost: any) => {
+      let params = buildObjectFilter(typePost);
+      searchPosts(params);
+    }
+
+    const handleAgreeButton = (type) => {
+      if (type == 1) {
+        changePostsPriority(priority, id);
+      }
+      else if (type == 2) {
+        deletePost(id);
+      }
+    }
+
+    const deletePost = (id: any) => {
+      axios({
+        method: "delete",
+        url: "/posts" + "/" + id,
+      }).then(
+          (res) => {
+            setOpen(false);
+            setAlertVisibility(true);
+            setAlertType("success");
+            setAlertContent("Xóa bài viết thành công");
+            searchPosts(null);
+          },
+          (err) => {
+            setAlertVisibility(true);
+            setAlertType("error");
+            setAlertContent(err.response.data);
+          }
+      );
+    };
+
+    const searchPosts = (params: any) => {
+      axios({
+        method: "get",
+        url: Backend.URL + "/posts",
+        params: params,
+      }).then(
+          (res) => {
+            setListPost(res.data.content);
+          },
+          (err) => {
+            console.log(err);
+          }
+      );
+    }
+
+
     const ListPostsContent = listPosts.map((post, index) => {
       return (
         <Box className="list-posts" key={index}>
@@ -257,14 +281,30 @@ export default function Home() {
       );
     });
 
+    useEffect(() => {
+      console.log(props.type);
+      if (props.type != null || props.type != undefined) {
+        setTypePost(props.type);
+        searchPostsProcess(props.type);
+      }
+    },[props])
+
     return (
       <Box className="list-posts-content flex-row full-width full-height">
         {ListPostsContent}
+        <DialogComponent title={titleDialog} content={contentDialog}></DialogComponent>
       </Box>
     );
   };
 
   const FilterPosts = () => {
+    const [searchType, setSearchType] = useState("default");
+    const [lastType, setLastType] = useState("default");
+
+    const handleTypePost = (event: any) => {
+      setSearchType(event.target.value as string);
+    }
+
     // @ts-ignore
     // @ts-ignore
     return (
@@ -286,36 +326,15 @@ export default function Home() {
               </Select>
             </Box>
             <Box sx={{marginTop: "20px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-              <Button onClick={searchPostsProcess} sx={{backgroundColor: "gray", color: "white"}}>Tìm kiếm</Button>
+              <Button onClick={() => setLastType(searchType)} sx={{backgroundColor: "gray", color: "white"}}>Tìm kiếm</Button>
             </Box>
+            <ListPosts type={lastType}></ListPosts>
           </Box>
         </Box>
     )
   }
 
-  const DialogComponent = (props) => {
-    return (<Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        {props.title}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {props.content}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => handleAgreeButton(handleType)}>Đồng ý</Button>
-        <Button onClick={handleClose} autoFocus>
-          Hủy bỏ
-        </Button>
-      </DialogActions>
-    </Dialog>)
-  }
+
 
   return (
     <PageContainer
@@ -326,10 +345,8 @@ export default function Home() {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <FilterPosts></FilterPosts>
-        <ListPosts></ListPosts>
         <AlertComponent></AlertComponent>
       </Box>
-      <DialogComponent title={titleDialog} content={contentDialog}></DialogComponent>
     </PageContainer>
   );
 }
