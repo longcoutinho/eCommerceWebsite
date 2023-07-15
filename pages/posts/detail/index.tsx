@@ -65,11 +65,11 @@ export default function CreatePost() {
       <Box
         className="detail-posts-container flex-col"
       >
-          <Box sx={{display: "flex", flexDirection: "row"}}>
-              <Box sx={{fontSize: "40px", width: "20px"}}>
+          <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+              <Box sx={{fontSize: "20px", width: "20px"}}>
                   <FontAwesomeIcon style={{color: 'black'}} icon={faBackward} id="delete-cart-item"/>
               </Box>
-              <Button onClick={() => goBack()} sx={{color: 'black', marginLeft: "10px"}}>Back</Button>
+              <Button onClick={() => goBack()} sx={{color: 'black'}}>Back</Button>
           </Box>
           <Box className="detailposts-title" sx={{marginTop: "20px", textAlign: "center", fontSize: "30px", textTransform: "uppercase", fontWeight: "700"}}>
               <p>{detailPost?.title}</p>
