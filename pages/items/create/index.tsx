@@ -82,7 +82,7 @@ export default function CreateItem() {
   useEffect(() => {
     axios({
       method: "get",
-      url: Backend.URL + "/type/item",
+      url: Backend.URL + "/type/1",
     }).then(
         (res) => {
           setListPostsMenu(res.data);

@@ -145,7 +145,7 @@ export default function Home() {
     const changePostsPriority = (priority, id) => {
       axios({
         method: "put",
-        url: "/posts/priority" + "/" + id,
+        url: Backend.URL + "/posts/priority" + "/" + id,
         params: {
           priority: 1 - priority,
         }
@@ -207,7 +207,7 @@ export default function Home() {
     const deletePost = (id: any) => {
       axios({
         method: "delete",
-        url: "/posts" + "/" + id,
+        url: Backend.URL + "/posts" + "/" + id,
       }).then(
           (res) => {
             setOpen(false);
