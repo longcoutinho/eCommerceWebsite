@@ -9,7 +9,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Fade, Alert
+  Fade, Alert,
+    TextField,
 } from "@mui/material";
 import PageContainer from "../src/components/container/PageContainer";
 import {Post, TypePost} from "../src/components/interface";
@@ -110,9 +111,10 @@ export default function Home() {
     setHandleType(2);
   };
 
-  const buildObjectFilter = (searchType: any) : object => {
+  const buildObjectFilter = (searchType: any, title: any) : object => {
     const params = {
       typeId: searchType == "default" ? null : searchType,
+      title: title,
     }
     return params;
   }
@@ -190,8 +192,8 @@ export default function Home() {
       </Dialog>)
     }
 
-    const searchPostsProcess = (typePost: any) => {
-      let params = buildObjectFilter(typePost);
+    const searchPostsProcess = (typePost: any, title: any) => {
+      let params = buildObjectFilter(typePost, title);
       searchPosts(params);
     }
 
@@ -283,11 +285,9 @@ export default function Home() {
 
     useEffect(() => {
       console.log(props.type);
-      if (props.type != null || props.type != undefined) {
-        setTypePost(props.type);
-        searchPostsProcess(props.type);
-      }
-    },[props])
+      setTypePost(props.type);
+      searchPostsProcess(props.type, props.title);
+    },[props]);
 
     return (
       <Box className="list-posts-content flex-row full-width full-height">
@@ -299,10 +299,19 @@ export default function Home() {
 
   const FilterPosts = () => {
     const [searchType, setSearchType] = useState("default");
-    const [lastType, setLastType] = useState("default");
+    const [searchTitle, setSearchTitle] = useState("");
+    const [lastTitle, setLastTitle] = useState("");
+
+    const searchPost = () => {
+      setLastTitle(searchTitle);
+    }
 
     const handleTypePost = (event: any) => {
       setSearchType(event.target.value as string);
+    }
+
+    const handleTitlePost = (event: any) => {
+      setSearchTitle(event.target.value as string);
     }
 
     // @ts-ignore
@@ -311,7 +320,7 @@ export default function Home() {
         <Box sx={{width: "100%"}}>
           <p>Tìm kiếm bài viết</p>
           <Box sx={{border: "2px solid black", padding: "20px"}}>
-            <Box sx={{display: "flex", flexDirection: "row"}}>
+            <Box sx={{display: "flex", flexDirection: "row", gap: "10px"}}>
               <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -324,11 +333,15 @@ export default function Home() {
                     <MenuItem value={type.id}>{type.name}</MenuItem>
                 ))}
               </Select>
+              <TextField
+              label="Tiêu đề bài viết"
+              onChange={handleTitlePost}
+              ></TextField>
             </Box>
             <Box sx={{marginTop: "20px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-              <Button onClick={() => setLastType(searchType)} sx={{backgroundColor: "gray", color: "white"}}>Tìm kiếm</Button>
+              <Button onClick={() => searchPost()} sx={{backgroundColor: "gray", color: "white"}}>Tìm kiếm</Button>
             </Box>
-            <ListPosts type={lastType}></ListPosts>
+            <ListPosts type={searchType} title={lastTitle}></ListPosts>
           </Box>
         </Box>
     )

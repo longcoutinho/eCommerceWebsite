@@ -62,14 +62,28 @@ export default function Orders() {
     );
   };
 
-  const ListPosts = () => {
+  const ListOrder = () => {
     const ListPostsContent = listPosts.map((post, index) => {
       return (
-          <Box className="list-posts" key={index}>
-            <Box className="list-posts-title">
-              <p>{post.name}</p>
-              <p>{post.address}</p>
-              <p>{post.phone}</p>
+          <Box className="list-order" key={index}>
+            <Box className="list-order-title">
+                <Box className="order-first-para">
+                    <p>Thông tin người đặt</p>
+                </Box>
+                <Box>
+                    <p>Tên: {post.name}</p>
+                    <p>Địa chỉ: {post.address}</p>
+                    <p>SĐT: {post.phone}</p>
+                    <p>{post.createAt}</p>
+                </Box>
+            </Box>
+            <Box className="list-order-title">
+                <Box className="order-first-para">
+                    <p>Ghi chú</p>
+                </Box>
+                <Box>
+                    <p>{post.note}abc</p>
+                </Box>
             </Box>
             <Box className="group-action-icon">
               <FontAwesomeIcon
@@ -106,7 +120,7 @@ export default function Orders() {
         <Box
             sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
         >
-          <ListPosts></ListPosts>
+          <ListOrder></ListOrder>
         </Box>
       </PageContainer>
   );
