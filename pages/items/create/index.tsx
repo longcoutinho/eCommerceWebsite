@@ -112,6 +112,7 @@ export default function CreateItem() {
         imagesTitle: image,
         introduction: introduction,
         content: content,
+        typeId: typePost,
       }
     })
     .then((response) => {
