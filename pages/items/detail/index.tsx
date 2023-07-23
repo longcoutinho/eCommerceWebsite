@@ -86,9 +86,9 @@ export default function ItemDetail() {
                 <Box>
                     <p className="title-detail-item">Giới thiệu về sản phẩm:
                     </p>
-                    <Box className="content-detail-item" sx={{marginTop: "20px"}}
-                         dangerouslySetInnerHTML={{ __html: detailPost?.content }}
-                    ></Box>
+                    <div className="content-detail-item" style={{marginTop: "20px"}}
+                         dangerouslySetInnerHTML={{ __html: detailPost?.content?detailPost.content:"" }}
+                    ></div>
                 </Box>
             </Box>
         );
