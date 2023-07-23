@@ -18,7 +18,9 @@ export interface Item {
     price: number,
     titleImageUrlStream: string,
     introduction: string,
-    createAt: string;
+    createAt: string,
+    content: string,
+    itemId: string,
 }
 
 export interface Course {
@@ -45,4 +47,5 @@ export interface Order {
     phone: string,
     note: string,
     createAt: string,
+    card: Item[]
 }

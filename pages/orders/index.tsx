@@ -36,7 +36,7 @@ export default function Orders() {
 
   const redirect = (id: any) => {
     router.push({
-      pathname: "/posts/detail",
+      pathname: "/orders/detail",
       search: "?" + new URLSearchParams({ id: id }),
     });
   };

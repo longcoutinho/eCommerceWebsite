@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import { faBackward } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Backend} from "../../../src/components/contants/FnCommon";
-import { Item, Order } from "../../../src/components/interface";
+import { Item } from "../../../src/components/interface";
 const Editor = dynamic(() => import("../../../src/components/editor"), {
     loading: () => <p>loading...</p>,
 
@@ -26,9 +26,9 @@ export interface Post {
     createTime: Date;
 }
 
-export default function OrderDetail() {
+export default function ItemDetail() {
     const [content, setContent] = useState<any>();
-    const [detailPost, setListPost] = useState<Order>();
+    const [detailPost, setListPost] = useState<Item>();
     const handleChange = (e: any) => {
         console.log("e", e);
         setContent(e);
@@ -36,7 +36,7 @@ export default function OrderDetail() {
     const route = useRouter();
     useEffect(() => {
         if (route.query.id !== undefined) {
-            const URL = Backend.URL + "/order/" + route.query.id;
+            const URL = Backend.URL + "/item/" + route.query.id;
             console.log(route.query.id);
             axios({
                 headers: {
@@ -46,7 +46,7 @@ export default function OrderDetail() {
                 url: URL,
             }).then(
                 (res) => {
-                    const newArr = res.data as Order;
+                    const newArr = res.data as Item;
                     console.log(res.data);
                     setListPost(newArr);
                 },
@@ -61,37 +61,6 @@ export default function OrderDetail() {
         route.back();
     }
 
-    const Cart = () => {
-        const Items = detailPost?.card.map((element, ind) => {
-            return (<Box>
-                <p>{element.itemId}</p>
-            </Box>)
-            });
-            // axios({
-            //     headers: {
-            //         "Access-Control-Allow-Origin": "*",
-            //     },
-            //     method: "get",
-            //     url: URL,
-            // }).then(
-            //     (res) => {
-            //         const newArr = res.data as Item;
-            //         console.log(res.data);
-            //         setListPost(newArr);
-            //     },
-            //     (err) => {
-            //         console.log(err);
-            //     }
-            // );)
-        return (
-            <Box>
-                {Items}
-            </Box>
-        )
-    }
-
-
-
     const DetailPost = () => {
         return (
             <Box
@@ -103,21 +72,23 @@ export default function OrderDetail() {
                     </Box>
                     <Button onClick={() => goBack()} sx={{color: 'black'}}>Back</Button>
                 </Box>
-                <Box>
-                    <p className="title-detail-item">Họ tên người đặt:</p>
-                    <Box className="content-detail-item">{detailPost?.name}</Box>
+                <Box className="detailposts-title" sx={{marginTop: "20px", textAlign: "center", fontSize: "30px", textTransform: "uppercase", fontWeight: "700"}}>
+                    <p>{detailPost?.title}</p>
                 </Box>
                 <Box>
-                    <p className="title-detail-item">Địa chỉ người đặt:</p>
-                    <Box className="content-detail-item">{detailPost?.address}</Box>
+                    <p className="title-detail-item">Giá sản phẩm:</p>
+                    <Box className="content-detail-item">{detailPost?.price}</Box>
                 </Box>
                 <Box>
-                    <p className="title-detail-item">SĐT người đặt:</p>
-                    <Box className="content-detail-item">{detailPost?.phone}</Box>
+                    <p className="title-detail-item">Mô tả sản phẩm:</p>
+                    <Box className="content-detail-item">{detailPost?.introduction}</Box>
                 </Box>
                 <Box>
-                    <p className="title-detail-item">Giỏ hàng:</p>
-                    <Cart></Cart>
+                    <p className="title-detail-item">Giới thiệu về sản phẩm:
+                    </p>
+                    <Box className="content-detail-item" sx={{marginTop: "20px"}}
+                         dangerouslySetInnerHTML={{ __html: detailPost?.content }}
+                    ></Box>
                 </Box>
             </Box>
         );
@@ -130,6 +101,6 @@ export default function OrderDetail() {
     );
 }
 
-OrderDetail.getLayout = function getLayout(page: ReactElement) {
+ItemDetail.getLayout = function getLayout(page: ReactElement) {
     return <FullLayout>{page}</FullLayout>;
 };

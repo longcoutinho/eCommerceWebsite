@@ -62,14 +62,14 @@ export default function Item() {
 
     const redirect = (id: any) => {
         router.push({
-            pathname: "/item/detail",
+            pathname: "/items/detail",
             search: "?" + new URLSearchParams({ id: id }),
         });
     };
 
     const editPost = (id: any) => {
         router.push({
-            pathname: "/item/update",
+            pathname: "/items/update",
             search: "?" + new URLSearchParams({ id: id }),
         });
     }
