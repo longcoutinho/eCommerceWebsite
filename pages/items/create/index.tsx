@@ -44,8 +44,7 @@ export default function CreateItem() {
   }
   const handleImage = (e: any) => {
     let listFile: File[] = [];
-    listFile[0] = e.target.files[0];
-    console.log(e.target.files[0]);
+    listFile = e.target.files;
     setImage(listFile);
   }
 
